@@ -92,7 +92,7 @@ This repository contains a simple go app. You do not need to know go, nor use an
 
 ## Build Docker image
 
-1. A `Dockerfile` defining the application image exists in the root directory. To do a container-based deploy we'll use the actions provided by Docker to build the image.
+1. A `Dockerfile` defining the application image exists in the root directory. To do a container-based deploy we'll use the actions provided by Docker to build the image. Create `.github/workflows/build.yml` with the following content:
 
     ```yml
     on:
