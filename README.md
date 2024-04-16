@@ -207,7 +207,7 @@ on:
 
 Reusable workflows makes it possible to avoid duplication and reuse common workflow-functionality. They can be [shared within a single repository or by the whole organization](https://docs.github.com/en/actions/using-workflows/reusing-workflows#access-to-reusable-workflows)
 
-To pass information to a shared workflow you should either use the `vars`-context or pass information directly to the workflow.
+To pass information to a shared workflow you should either use [the `vars`-context](https://docs.github.com/en/actions/learn-github-actions/contexts#about-contexts) or pass information directly to the workflow. The variables for the `vars`-context can be [found here](../../github-actions-workshop/settings/variables/actions).
 
 Reusable workflows use the `workflow_call`-trigger. A simple reusable workflow that accepts a config value as input look like this:
 ``` 
