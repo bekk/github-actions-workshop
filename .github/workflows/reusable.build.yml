@@ -3,12 +3,22 @@ on:
     inputs:
       push:
         type: boolean
+    outputs:
+      imageName:
+        description: "The docker image id"
+        value: ${{ jobs.build.outputs.imageName }}
+      digest:
+        description: "The docker image digest"
+        value: ${{ jobs.build.outputs.digest }}
 
 jobs:
   build:
     permissions:
       packages: write
     runs-on: 'ubuntu-latest'
+    outputs:
+      imageName: ${{ fromJson(steps.build-push.outputs.metadata)['image.name'] }}
+      digest: ${{ steps.build-push.outputs.digest }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,7 +33,10 @@ jobs:
           password: ${{ github.token }}
 
       - name: Build and push Docker image
+        id: build-push
         uses: docker/build-push-action@v5
         with:
           push: ${{ inputs.push }}
           tags: ghcr.io/${{ github.repository }}:latest
+
+

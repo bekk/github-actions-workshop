@@ -92,7 +92,7 @@ This repository contains a simple go app. You do not need to know go, nor use an
 
 ## Build Docker image
 
-1. A `Dockerfile` defining the application image exists in the root directory. To do a container-based deploy we'll use the actions provided by Docker to build the image.
+1. A `Dockerfile` defining the application image exists in the root directory. To do a container-based deploy we'll use the actions provided by Docker to build the image. Create `.github/workflows/build.yml` with the following content:
 
     ```yml
     on:
@@ -236,11 +236,29 @@ jobs:
 
 ## Deploying to environment
 
-TODO:
-* "Fake deploy" to save time, print name of image to be deployed
-* Add environments test, prod in GitHub UI
-* Prod should be protected using branch protection rules or rulesets
-* Deploying
+For the purposes of this workshop, we'll not actually deploy to any environment, but create a couple of GitHub environments to demonstrate how it would actually work. You can use environments to track deploys to a given environment, and set environment-specific variables and secrets required to deploy your application.
+
+1. Navigate to [Settings > Environments](../../settings/environments) and create two new environments: `test` and `production`. For each environment set a unique environment variable, `WORKSHOP_ENV_VARIABLE`.
+
+2. Create a new workflow in `.github/workflows/deploy.yml`. This workflow should trigger on `workflow_dispatch`, and take three inputs: `environment` of type `environment`, and the strings `imageName` and `digest`. It should have a single job, `deploy`, and here it should just "fake" the deploy by printing the `imageName` and `digest`. All inputs should be required ([set `required` to `true`](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onworkflow_dispatchinputsinput_idrequired). You should also set `environment` for the job (see [the docs](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idenvironment)) and print `${{ vars.WORKSHOP_ENV_VARIABLE }}` to print the special environment variable.
+
+3. Push the new workflow, and verify that you get a dropdown to select the environment when you trigger it, and that the value of `WORKSHOP_ENV_VARIABLE` is printed for the chosen environment.
+
+## Job dependencies
+
+Jobs can depend on each other. We'll now create a workflow that builds, then deploys the docker image to test and production, in that order.
+
+1. Modify the `deploy.yml` to make it reusable by adding a `workflow_call` trigger. It should have the same inputs as the `workflow_dispatch` trigger.
+
+2. Modify your reusable build action to propagate outputs. You'll need to add an `id: build-push` to the step that builds the image. Then, you can add an `outputs` object property to the job and the workflow.
+
+    To get the correct outputs from the `docker/build-push-action` action, you should use `fromJson(jobs.build.outputs.metadata)['image.name']` and `jobs.build.outputsdigest` outputs from the build-push action as `imageName` and `digest` respectively. You can read more about the `fromJson` expression in [the documentation](https://docs.github.com/en/actions/learn-github-actions/expressions#fromjson).
+
+    Take a look at [the documentation](https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow) for a complete example of outputs for a reusable workflow.
+
+3. Expand your (non-reusable) build workflow with a couple of more jobs: `deploy-test` and `deploy-production`. These jobs should reuse the `deploy.yml` workflow, use `imageName` and `digest` outputs from the `build` job and use correct environments. You have to specify `needs` for the deploy jobs, take a look at [the `needs` context and corresponding example](https://docs.github.com/en/actions/learn-github-actions/contexts#example-usage-of-the-matrix-context).
+
+4. Push the workflow, and verify that the jobs run correctly, printing the correct docker image specification and environment variable. The `deploy-test` job should also finish before the `production-test` job starts.
 
 ## Branch protection rules
 
@@ -265,12 +283,13 @@ You can find branch protections rules by going to [Settings > Branches](../../se
 > [!TIP]
 > Branch protection rules will disallow force pushes for everyone, including administrators, by default, but this can be turned on again in the settings.
 
-## Extra: Environment variables and secrets
-
-TODO: Need a use case
-
 ## Extra: Reusable composite actions
 
 * Create reusable composite actions for build, use as part of jobs on PR and main pushes
 
+## Other extras:
 
+
+* Gated prod deploy
+* Don't trigger build on non-source code changes
+* Only deploy prod on main branch

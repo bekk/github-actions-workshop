@@ -4,24 +4,30 @@ on:
       environment:
         description: 'Deployment environment'
         type: environment
-      dockerImage:
+        required: true
+      imageName:
         description: 'Docker image'
         type: string
-      dockerImageSha:
+        required: true
+      digest:
         description: 'The SHA of the built image'
         type: string
+        required: true
 
   workflow_call:
     inputs:
       environment:
         description: 'Deployment environment'
         type: string
-      dockerImage:
+        required: true
+      imageName:
         description: 'Docker image'
         type: string
-      dockerImageSha:
+        required: true
+      digest:
         description: 'The SHA of the built image'
         type: string
+        required: true
 
 
 jobs:
@@ -30,5 +36,5 @@ jobs:
     environment: ${{ inputs.environment }}
     steps:
       - run: |
-          echo "Deploying docker image ${{ inputs.dockerImage }}@${{ inputs.dockerImageSha }}"
+          echo "Deploying docker image ${{ inputs.imageName }}@${{ inputs.digest }}"
           echo "Special variable: ${{ vars.WORKSHOP_ENV_VARIABLE }}"
