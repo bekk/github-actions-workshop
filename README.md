@@ -16,9 +16,11 @@ The tasks in the workshop can be done using only the built-in GitHub editor. How
 
 ## Getting started
 
-TODO: Likely `gh repo fork --clone` or using the GitHub UI to fork the repo to a personal account
+Fork the repository to your personal account using the GIT CLI with `gh repo fork --clone` or by using the GitHub UI. Continue reading the workshop README on the forked repo since some of the links will only work there. 
 
-This repository contains a simple go app. You do not need to know go, nor use any Golang tooling. We will, unless explicitly specified otherwise, only modify files in the special `.github/` directory.
+This repository contains a simple Go app. You do not need to know Go, nor use any Golang tooling. We will, unless explicitly specified otherwise, only modify files in the special `.github/` directory.
+
+Start by [enabling GitHub Actions in your fork](../../actions)
 
 ## Our first workflow
 
