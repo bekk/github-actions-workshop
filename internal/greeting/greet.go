@@ -5,6 +5,7 @@ import (
 	"fmt"
 )
 
+// This function takes a slice of strings and returns a greeting string.
 func Greet(names []string) (string, error) {
 	if len(names) == 0 {
 		return "", errors.New("at least one name must be specified")
