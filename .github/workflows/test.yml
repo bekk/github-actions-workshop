@@ -1,0 +1,10 @@
+name: Build and test
+
+on: push
+
+jobs:
+    test: 
+        name: Build app
+        runs-on: ubuntu-latest
+        steps:
+            - run: echo "Hello world"
