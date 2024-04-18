@@ -1,3 +1,5 @@
+name: "Build and push"
+
 on: push
 
 jobs:
@@ -19,4 +21,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/${{ github.repository.lowercase }}:latest
