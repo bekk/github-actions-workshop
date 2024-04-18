@@ -12,7 +12,7 @@ jobs:
       # Checkout code
       - uses: actions/checkout@v4
 
-      # Install go 1.21
+      # Instal go 1.21
       - name: Setup go
         uses: actions/setup-go@v4
         with: # Specify input variables to the action
