@@ -50,7 +50,7 @@ func TestGreetManyNames(t *testing.T) {
 	if err != nil {
 		t.Fatalf("err should be nil, got: %s", err.Error())
 	}
-	if got == want {
+	if got != want {
 		t.Fatalf("Wanted '%s', got '%s'", want, got)
 	}
 }
