@@ -12,4 +12,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: false
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/mathiassjacobsen/github-actions-workshop:latest
