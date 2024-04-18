@@ -1,0 +1,14 @@
+# The "display name", shown in the GitHub UI
+name: Build and test
+
+# Trigger, run on push on any branch
+on:
+  push:
+
+jobs:
+  test: # The 'build' job
+    name: "Build application"
+    runs-on: 'ubuntu-latest'
+    steps:
+      # Step to print a simple message
+      - run: echo "Hello world"
