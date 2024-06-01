@@ -306,22 +306,7 @@ When creating an action in the same repository as your other workflows, it's cus
 
 ## Other extras:
 
-### Manual approval before production deploy
-
-You can enforce manual approval before production deploy. Navigate to [Settings > Environments](../../settings/environments) and enable "Required reviewers" for the production environment.
-
-### Only trigger build on application source changes
-
-You can ensure that certain actions only run when the code changes. E.g., you might not want or need all actions to run for a change in `README.md`. Take a look at [the documentation](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushpull_requestpull_request_targetpathspaths-ignore) to see how you can modify the `push` trigger.
-
-### Production deploy for main branch only
-
-You can use [conditions](https://docs.github.com/en/actions/using-jobs/using-conditions-to-control-job-execution) to control wheter a job or step should run. Change your actions so that only the `main` branch can be deployed to production. Other branches can still be deployed to the test environment.
-
-> [!TIP]
-> You will likely need the `github.ref_name` from the `github` context to do this.
-
-## Control concurrent workflows or jobs
+### Control concurrent workflows or jobs
 
 The default behavior of GitHub Actions is to allow multiple jobs or workflows to run [concurrently](https://docs.github.com/en/actions/using-jobs/using-concurrency). 
 
@@ -339,6 +324,22 @@ concurrency:
 Github Actions ensures that jobs or workflows with the same key are not allowed run at the same time. If `cancel-in-progress` is false the workflow or jobs will run sequentially.
 
 1. Change the `deploy.yml` workflow to ensure that deploys to the same environment is done sequentially
+
+
+### Manual approval before production deploy
+
+You can enforce manual approval before production deploy. Navigate to [Settings > Environments](../../settings/environments) and enable "Required reviewers" for the production environment.
+
+### Only trigger build on application source changes
+
+You can ensure that certain actions only run when the code changes. E.g., you might not want or need all actions to run for a change in `README.md`. Take a look at [the documentation](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#onpushpull_requestpull_request_targetpathspaths-ignore) to see how you can modify the `push` trigger.
+
+### Production deploy for main branch only
+
+You can use [conditions](https://docs.github.com/en/actions/using-jobs/using-conditions-to-control-job-execution) to control wheter a job or step should run. Change your actions so that only the `main` branch can be deployed to production. Other branches can still be deployed to the test environment.
+
+> [!TIP]
+> You will likely need the `github.ref_name` from the `github` context to do this.
 
 ### Caching docker image layers
 
