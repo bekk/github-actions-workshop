@@ -31,12 +31,17 @@ runs:
         username: ${{ github.actor }}
         password: ${{ github.token }}
 
+    - name: Use lowercase repository name as docker image name
+      shell: bash
+      run: |
+        echo "DOCKER_IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> "$GITHUB_ENV"
+
     - name: Build and push Docker image
       id: build-push
       uses: docker/build-push-action@v5
       with:
         push: ${{ inputs.push == true }} # Yes, the extra comparison is needed
-        tags: ghcr.io/${{ github.repository }}:latest
+        tags: ghcr.io/${{ env.DOCKER_IMAGE_NAME }}:latest
 
     - name: Set output
       id: set-output
