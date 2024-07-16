@@ -1,0 +1,28 @@
+on:
+  workflow_call:
+    inputs:
+      push:
+        type: boolean
+    outputs:
+      imageName:
+        description: "The docker image id"
+        value: ${{ jobs.build.outputs.imageName }}
+      digest:
+        description: "The docker image digest"
+        value: ${{ jobs.build.outputs.digest }}
+
+jobs:
+  build:
+    permissions:
+      packages: write
+    runs-on: 'ubuntu-latest'
+    outputs:
+      imageName: ${{ steps.build-push.outputs.imageName }}
+      digest: ${{ steps.build-push.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/build-image
+        id: build-push
+        with:
+          github_token: ${{ github.token }}
