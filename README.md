@@ -111,8 +111,7 @@ This repository contains a simple go app. You do not need to know go, nor use an
 
         - name: Use lowercase repository name as docker image name
           run:
-            export REPOSITORY=${{ github.repository }}
-            echo "DOCKER_IMAGE_NAME=${REPOSITORY@L}" >> "$GITHUB_ENV"
+            echo "DOCKER_IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
 
         - name: Build and push Docker image
           uses: docker/build-push-action@v5
@@ -133,7 +132,7 @@ This repository contains a simple go app. You do not need to know go, nor use an
 
 2. Push and verify that the action runs correctly.
 
-3. In order to push the image, we will need to set up [permissions](https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs). With `packages: write` you allow the action to push images to the GitHub Container Registry (GHCR). You can set it at the top-level, for all jobs in the workflow, or for a single job:
+3. We will need to set up [permissions](https://docs.github.com/en/actions/using-jobs/assigning-permissions-to-jobs) to push the image. Set `packages: write` to allow the action to push images to the GitHub Container Registry (GHCR). You can set it at the top-level, for all jobs in the workflow, or for a single job:
 
     ```yml
     jobs:
