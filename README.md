@@ -71,7 +71,7 @@ This repository contains a simple go app. You do not need to know go, nor use an
 
           # Install go 1.21
           - name: Setup go
-            uses: actions/setup-go@v4
+            uses: actions/setup-go@v5
             with: # Specify input variables to the action
               go-version: '1.21.x'
 
