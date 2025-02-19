@@ -1,0 +1,18 @@
+on: push
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Use lowercase repository name as docker image name
+        run: echo "DOCKER_IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_ENV"
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: false
+          tags: ghcr.io/${{ env.DOCKER_IMAGE_NAME }}:latest
