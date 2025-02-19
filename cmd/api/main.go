@@ -26,6 +26,7 @@ func helloHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Printf("got request to %s\n", r.URL.Path)
 	io.WriteString(w, "Hello world\n")
