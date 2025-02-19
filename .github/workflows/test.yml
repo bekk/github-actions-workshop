@@ -6,21 +6,20 @@ on:
   push:
 
 jobs:
-  test: # The 'build' job
-    name: 'Build application'
+  test:
     runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v4
-
-      # Install go 1.21
       - name: Setup go
         uses: actions/setup-go@v5
         with: # Specify input variables to the action
           go-version: '1.21.x'
 
-      # Shell script to print the version
-      - run: go version
+      #- run: echo "Hello world"
+      #- run: go version
+
       - name: Build
-        run: go build -v ./...s
+        run: go build -v ./...
+
       - name: Test
-        run: go test ./.  ..
+        run: go test ./...
